@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/nathanramli/hacktiv8-mygram/common"
 	"github.com/nathanramli/hacktiv8-mygram/config"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/params"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/views"
@@ -63,11 +64,12 @@ func (s *userSvc) Login(ctx context.Context, user *params.Login) *views.Response
 		return views.ErrorResponse(http.StatusBadRequest, views.M_INVALID_CREDENTIALS, err)
 	}
 
-	claims := &jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(time.Minute * time.Duration(config.GetJwtExpiredTime())).Unix(),
-		Issuer:    model.Username,
-		Subject:   model.Email,
+	claims := &common.CustomClaims{
+		Id: model.Id,
 	}
+	claims.ExpiresAt = time.Now().Add(time.Minute * time.Duration(config.GetJwtExpiredTime())).Unix()
+	claims.Issuer = model.Username
+	claims.Subject = model.Email
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	ss, err := token.SignedString(config.GetJwtSignature())
