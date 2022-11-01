@@ -34,6 +34,10 @@ func main() {
 	userSvc := services.NewUserSvc(userRepo)
 	userHandler := controllers.NewUserController(userSvc)
 
-	app := httpserver.NewRouter(router, userHandler)
+	socialMediaRepo := gorm.NewSocialMediaRepo(db)
+	socialMediaSvc := services.NewSocialMediaSvc(socialMediaRepo)
+	socialMediaHandler := controllers.NewSocialMediaController(socialMediaSvc)
+
+	app := httpserver.NewRouter(router, userHandler, socialMediaHandler)
 	app.Start(":" + os.Getenv("PORT"))
 }

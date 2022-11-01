@@ -112,9 +112,8 @@ func (c *UserController) Update(ctx *gin.Context) {
 }
 
 func (c *UserController) TestValidate(ctx *gin.Context) {
-	user, _ := ctx.Get("user")
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"status": "i'm Logging in",
-		"user":   user,
 	})
 }

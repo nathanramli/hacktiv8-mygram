@@ -29,8 +29,8 @@ func (r *socialMediaRepo) GetSocialMedia(ctx context.Context, id uint) (*models.
 	return socialMedia, r.db.WithContext(ctx).Where("id = ?", id).Take(socialMedia).Error
 }
 
-func (r *socialMediaRepo) EditSocialMedia(ctx context.Context, id uint) error {
-	socialMedia := time.Now()
+func (r *socialMediaRepo) EditSocialMedia(ctx context.Context, socialMedia *models.SocialMedia) error {
+	socialMedia.UpdatedAt = time.Now()
 	return r.db.WithContext(ctx).Model(socialMedia).Updates(*&socialMedia).Error
 }
 

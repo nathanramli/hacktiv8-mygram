@@ -1,7 +1,6 @@
 package httpserver
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -13,13 +12,15 @@ import (
 type router struct {
 	router *gin.Engine
 
-	user *controllers.UserController
+	user        *controllers.UserController
+	socialMedia *controllers.SocialMediaControllers
 }
 
-func NewRouter(r *gin.Engine, user *controllers.UserController) *router {
+func NewRouter(r *gin.Engine, user *controllers.UserController, socialMedia *controllers.SocialMediaControllers) *router {
 	return &router{
-		router: r,
-		user:   user,
+		router:      r,
+		user:        user,
+		socialMedia: socialMedia,
 	}
 }
 
@@ -30,12 +31,15 @@ func (r *router) Start(port string) {
 
 	// Test
 	r.router.GET("/v1/validate", r.verifyToken, r.user.TestValidate)
+
+	// social media
+	r.router.POST("/v1/socialmedias", r.verifyToken, r.socialMedia.CreateSocialMedia)
 	r.router.Run(port)
 }
 
 func (r *router) verifyToken(ctx *gin.Context) {
 	bearerToken := strings.Split(ctx.Request.Header.Get("Authorization"), "Bearer ")
-	fmt.Println(bearerToken[2])
+	// fmt.Println(bearerToken[2])
 	if len(bearerToken) != 3 {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 			"error": "invalid bearer token",
@@ -43,8 +47,6 @@ func (r *router) verifyToken(ctx *gin.Context) {
 		return
 	}
 	claims, err := common.ValidateToken(bearerToken[2])
-	fmt.Println(bearerToken[1])
-	fmt.Println(claims)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 			"error": err.Error(),
