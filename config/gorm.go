@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -10,9 +11,9 @@ import (
 const (
 	host     = "localhost"
 	port     = "5432"
-	user     = "nathan"
-	password = "12345678"
-	dbname   = "hacktiv8_tugas"
+	user     = "postgres"
+	password = "0000"
+	dbname   = "mygram"
 )
 
 func ConnectPostgresGORM() (*gorm.DB, error) {
