@@ -1,14 +1,15 @@
 package controllers
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/nathanramli/hacktiv8-mygram/common"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/params"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/views"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/services"
-	"net/http"
-	"strconv"
 )
 
 type UserController struct {
@@ -108,4 +109,12 @@ func (c *UserController) Update(ctx *gin.Context) {
 	}
 
 	WriteJsonResponse(ctx, &views.Response{Message: "OK"})
+}
+
+func (c *UserController) TestValidate(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": "i'm Logging in",
+		"user":   user,
+	})
 }

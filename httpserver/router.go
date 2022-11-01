@@ -1,11 +1,12 @@
 package httpserver
 
 import (
+	"net/http"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/nathanramli/hacktiv8-mygram/common"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers"
-	"net/http"
-	"strings"
 )
 
 type router struct {
@@ -25,6 +26,9 @@ func (r *router) Start(port string) {
 	r.router.POST("/v1/users/register", r.user.Register)
 	r.router.POST("/v1/users/login", r.user.Login)
 	r.router.PUT("/v1/users/:userId", r.verifyToken, r.user.Update)
+
+	// Test
+	r.router.GET("/v1/validate", r.verifyToken, r.user.TestValidate)
 	r.router.Run(port)
 }
 
