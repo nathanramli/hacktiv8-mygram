@@ -20,13 +20,15 @@ func NewPhotoSvc(repo repositories.PhotoRepo) PhotoSvc {
 	}
 }
 
-func (s *photoSvc) CreatePhoto(ctx context.Context, photo *params.CreatePhoto) *views.Response {
+func (s *photoSvc) CreatePhoto(ctx context.Context, photo *params.CreatePhoto, UserID uint) *views.Response {
 	//request
 	p := models.Photo{
 		Title:	  photo.Title,
 		Caption:  photo.Caption,
 		PhotoUrl: photo.PhotoUrl,
+		UserId: UserID,
 	}
+	// p.UserId =idUser
 
 	err := s.repo.CreatePhoto(ctx, &p)
 	if err != nil {
@@ -49,7 +51,14 @@ func (s *photoSvc) GetPhotos(ctx context.Context) *views.Response {
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
 
-	return views.SuccessResponse(http.StatusOK, views.M_OK, p)
+	return views.SuccessResponse(http.StatusOK, views.M_OK, views.GetPhotos{
+		Id:             p.Id,
+		Title:          p.Title,
+		Caption: 		p.Caption,
+		PhotoUrl:       p.PhotoUrl,
+		UserId:			p.UserId,
+		User
+	})
 }
 
 func (s *photoSvc) UpdatePhoto(ctx context.Context, photo *params.UpdatePhoto, id uint) *views.Response {

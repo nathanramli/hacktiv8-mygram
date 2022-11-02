@@ -21,7 +21,8 @@ func NewPhotoRepo(db *gorm.DB) repositories.PhotoRepo {
 
 func (r *photoRepo) CreatePhoto(ctx context.Context, photo *models.Photo) error {
 	photo.CreatedAt = time.Now()
-	return r.db.WithContext(ctx).Save(photo).Error
+	err := r.db.WithContext(ctx).Create(photo).Error
+	return err
 }
 
 func (r *photoRepo) GetPhotos(ctx context.Context) ([]models.Photo, error) {

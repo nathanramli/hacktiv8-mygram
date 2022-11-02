@@ -32,8 +32,8 @@ func (r *router) Start(port string) {
 	r.router.GET("/v1/validate", r.verifyToken, r.user.TestValidate)
 
 	//photo
-	r.router.POST("/v1/photos", r.photo.CreatePhoto)
-	r.router.GET("/v1/photos", r.photo.GetPhotos)
+	r.router.POST("/v1/photos", r.verifyToken, r.photo.CreatePhoto)
+	r.router.GET("/v1/photos", r.verifyToken, r.photo.GetPhotos)
 	r.router.PUT("/v1/photos/:photoId", r.verifyToken, r.photo.UpdatePhoto)
 
 	r.router.Run(port)
@@ -57,6 +57,17 @@ func (r *router) verifyToken(ctx *gin.Context) {
 		})
 		return
 	}
+
+	// userId := int(claims["id"])
+
+	// if userId == 0 {
+	// 	ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+	// 		"error": "User Unauthorized",
+	// 	})
+	// 	return
+	// }
+
 	ctx.Set("userData", claims)
-	ctx.Set("photoData", claims)
+	// ctx.Set("currentUser", userId)
+	// ctx.Set("photoData", claims)
 }

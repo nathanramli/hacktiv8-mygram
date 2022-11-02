@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	// "github.com/dgrijalva/jwt-go"
 	"github.com/nathanramli/hacktiv8-mygram/common"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/params"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/views"
@@ -23,7 +24,7 @@ func NewPhotoController(svc services.PhotoSvc) *PhotoController {
 
 func (c *PhotoController) CreatePhoto(ctx *gin.Context) {
 	var req params.CreatePhoto
-	
+
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -31,6 +32,16 @@ func (c *PhotoController) CreatePhoto(ctx *gin.Context) {
 		return
 	}
 
+	claims, exist := ctx.Get("userData")
+	if !exist {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "token doesn't exists",
+		})
+		return
+	}
+	
+	userData := claims.(*common.CustomClaims)
+	userId := uint(userData.Id)
 	err := validator.New().Struct(req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -38,7 +49,7 @@ func (c *PhotoController) CreatePhoto(ctx *gin.Context) {
 		})
 		return
 	}
-	response := c.svc.CreatePhoto(ctx, &req)
+	response := c.svc.CreatePhoto(ctx, &req, userId)
 	WriteJsonResponse(ctx, response)
 }
 
@@ -64,7 +75,7 @@ func (c *PhotoController) UpdatePhoto(ctx *gin.Context) {
 		})
 		return
 	}
-	claims, exists := ctx.Get("photoData")
+	claims, exists := ctx.Get("userData")
 	if !exists {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 			"error": "token doesn't exists",
