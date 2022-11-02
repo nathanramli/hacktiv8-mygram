@@ -5,6 +5,7 @@ import (
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories/models"
 	"gorm.io/gorm"
+	"strings"
 	"time"
 )
 
@@ -31,7 +32,13 @@ func (r *userRepo) FindUserByID(ctx context.Context, id int) (*models.User, erro
 
 func (r *userRepo) FindUserByEmail(ctx context.Context, email string) (*models.User, error) {
 	user := new(models.User)
-	err := r.db.WithContext(ctx).Where("email = ?", email).Take(user).Error
+	err := r.db.WithContext(ctx).Where("LOWER(email) = ?", strings.ToLower(email)).Take(user).Error
+	return user, err
+}
+
+func (r *userRepo) FindUserByUsername(ctx context.Context, username string) (*models.User, error) {
+	user := new(models.User)
+	err := r.db.WithContext(ctx).Where("LOWER(username) = ?", strings.ToLower(username)).Take(user).Error
 	return user, err
 }
 

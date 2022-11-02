@@ -1,7 +1,6 @@
 package httpserver
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -27,6 +26,7 @@ func (r *router) Start(port string) {
 	r.router.POST("/v1/users/register", r.user.Register)
 	r.router.POST("/v1/users/login", r.user.Login)
 	r.router.PUT("/v1/users/:userId", r.verifyToken, r.user.Update)
+	r.router.DELETE("/v1/users", r.verifyToken, r.user.Delete)
 	r.router.Run(port)
 }
 
