@@ -34,6 +34,7 @@ func (r *router) Start(port string) {
 
 	// social media
 	r.router.POST("/v1/socialmedias", r.verifyToken, r.socialMedia.CreateSocialMedia)
+	r.router.PUT("/v1/socialmedias/:socialMediaId", r.verifyToken, r.socialMedia.UpdateSocialMedia)
 	r.router.Run(port)
 }
 
@@ -54,4 +55,5 @@ func (r *router) verifyToken(ctx *gin.Context) {
 		return
 	}
 	ctx.Set("userData", claims)
+	ctx.Set("socialMediaData", claims)
 }
