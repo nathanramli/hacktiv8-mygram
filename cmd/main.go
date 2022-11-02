@@ -22,6 +22,10 @@ func main() {
 	userSvc := services.NewUserSvc(userRepo)
 	userHandler := controllers.NewUserController(userSvc)
 
-	app := httpserver.NewRouter(router, userHandler)
+	photoRepo := gorm.NewPhotoRepo(db)
+	photoSvc := services.NewPhotoSvc(photoRepo)
+	photoHandler := controllers.NewPhotoController(photoSvc)
+
+	app := httpserver.NewRouter(router, userHandler, photoHandler)
 	app.Start(":8000")
 }

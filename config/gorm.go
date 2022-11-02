@@ -12,7 +12,7 @@ const (
 	host     = "localhost"
 	port     = "5432"
 	user     = "postgres"
-	password = "0000"
+	password = "superuser"
 	dbname   = "mygram"
 )
 
@@ -24,7 +24,7 @@ func ConnectPostgresGORM() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.Debug().AutoMigrate(models.User{})
+	db.Debug().AutoMigrate(models.User{}, models.Photo{})
 
 	return db, nil
 }

@@ -12,3 +12,8 @@ type UserRepo interface {
 	FindUserByEmail(ctx context.Context, email string) (*models.User, error)
 	DeleteUser(ctx context.Context, id int) error
 }
+
+type PhotoRepo interface {
+	CreatePhoto(ctx context.Context, photo *models.Photo) error
+	GetPhotos(ctx context.Context) ([]models.Photo, error)
+}

@@ -14,12 +14,14 @@ type router struct {
 	router *gin.Engine
 
 	user *controllers.UserController
+	photo *controllers.PhotoController
 }
 
-func NewRouter(r *gin.Engine, user *controllers.UserController) *router {
+func NewRouter(r *gin.Engine, user *controllers.UserController, photo *controllers.PhotoController) *router {
 	return &router{
 		router: r,
 		user:   user,
+		photo: photo,
 	}
 }
 
@@ -27,6 +29,11 @@ func (r *router) Start(port string) {
 	r.router.POST("/v1/users/register", r.user.Register)
 	r.router.POST("/v1/users/login", r.user.Login)
 	r.router.PUT("/v1/users/:userId", r.verifyToken, r.user.Update)
+
+	//photo
+	r.router.POST("/v1/photos", r.verifyToken, r.photo.CreatePhoto)
+	r.router.GET("/v1/photos", r.verifyToken, r.photo.GetPhotos)
+
 	r.router.Run(port)
 }
 
