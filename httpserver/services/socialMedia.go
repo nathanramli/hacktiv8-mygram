@@ -40,8 +40,19 @@ func (s *socialMediaSvc) CreateSocialMedia(ctx context.Context, socialMedia *par
 	})
 }
 func (s *socialMediaSvc) GetSocialMedia(ctx context.Context) *views.Response {
-	
-	return nil
+	sm := models.SocialMedia{}
+	// err := s.repo.GetSocialMedia(ctx)
+	// if err != nil {
+	// 	return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+	// }
+	return views.SuccessResponse(http.StatusOK, views.M_OK, views.GetSocialMedia{
+		Id:             sm.Id,
+		Name:           sm.Name,
+		SocialMediaUrl: sm.SocialMediaUrl,
+		UserId:         sm.UserId,
+		CreatedAt:      sm.CreatedAt,
+		UpdatedAt:      sm.UpdatedAt,
+	})
 }
 
 func (s *socialMediaSvc) UpdateSocialMedia(ctx context.Context, socialMedia *params.UpdateSocialMedia, id uint) *views.Response {

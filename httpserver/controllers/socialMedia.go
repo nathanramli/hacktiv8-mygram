@@ -41,6 +41,10 @@ func (c *SocialMediaControllers) CreateSocialMedia(ctx *gin.Context) {
 	response := c.svc.CreateSocialMedia(ctx, &request)
 	WriteJsonResponse(ctx, response)
 }
+func (c *SocialMediaControllers) GetSocialMedia(ctx *gin.Context) {
+	response := c.svc.GetSocialMedia(ctx)
+	WriteJsonResponse(ctx, response)
+}
 
 func (c *SocialMediaControllers) UpdateSocialMedia(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
