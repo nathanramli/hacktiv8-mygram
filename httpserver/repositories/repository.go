@@ -16,4 +16,5 @@ type UserRepo interface {
 type PhotoRepo interface {
 	CreatePhoto(ctx context.Context, photo *models.Photo) error
 	GetPhotos(ctx context.Context) ([]models.Photo, error)
+	UpdatePhoto(ctx context.Context, photo *models.Photo) error
 }

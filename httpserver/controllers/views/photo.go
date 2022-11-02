@@ -19,8 +19,17 @@ type GetPhotos struct {
 	Title    string    	  `json:"title"`
 	Caption  string 	  `json:"caption"`
 	PhotoUrl string 	  `json:"photo_url"`
-	UserId 	 models.User `json:"user_id`
+	UserId 	 models.User  `json:"user_id`
 	CreatedAt time.Time 
 	UpdatedAt time.Time
-	User 	 models.User
+	User 	 models.User  `json:"user"`
+}
+
+type UpdatePhoto struct {
+	Id       uint    	  `json:"id"`
+	Title    string    	  `json:"title"`
+	Caption  string 	  `json:"caption"`
+	PhotoUrl string 	  `json:"photo_url"`
+	UserId 	 models.User  `json:"user_id`
+	UpdatedAt time.Time 
 }

@@ -109,3 +109,10 @@ func (c *UserController) Update(ctx *gin.Context) {
 
 	WriteJsonResponse(ctx, &views.Response{Message: "OK"})
 }
+
+func (c *UserController) TestValidate(ctx *gin.Context) {
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": "i'm Logging in",
+	})
+}
