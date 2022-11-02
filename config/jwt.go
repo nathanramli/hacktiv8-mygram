@@ -3,6 +3,7 @@ package config
 import (
 	"math/rand"
 	"strconv"
+	"time"
 )
 
 var (
@@ -11,6 +12,7 @@ var (
 )
 
 func GenerateJwtSignature() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	jwtSignature = []byte(strconv.FormatUint(rand.Uint64(), 10))
 }
 
