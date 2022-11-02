@@ -39,6 +39,10 @@ func (s *socialMediaSvc) CreateSocialMedia(ctx context.Context, socialMedia *par
 		CreatedAt:      sm.CreatedAt,
 	})
 }
+func (s *socialMediaSvc) GetSocialMedia(ctx context.Context) *views.Response {
+	
+	return nil
+}
 
 func (s *socialMediaSvc) UpdateSocialMedia(ctx context.Context, socialMedia *params.UpdateSocialMedia, id uint) *views.Response {
 	sm := models.SocialMedia{

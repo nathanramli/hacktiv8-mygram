@@ -16,7 +16,7 @@ type UserRepo interface {
 
 type SocialMediaRepo interface {
 	CreateSocialMedia(ctx context.Context, socialMedia *models.SocialMedia) error
-	GetSocialMedia(ctx context.Context, id uint) (*models.SocialMedia, error)
+	GetSocialMedia(ctx context.Context) (*models.SocialMedia, error)
 	EditSocialMedia(ctx context.Context, socialMedia *models.SocialMedia) error
 	DeleteSocialMedia(ctx context.Context, id uint) error
 }

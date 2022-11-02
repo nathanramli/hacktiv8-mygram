@@ -24,9 +24,10 @@ func (r *socialMediaRepo) CreateSocialMedia(ctx context.Context, socialMedia *mo
 	return r.db.WithContext(ctx).Create(socialMedia).Error
 }
 
-func (r *socialMediaRepo) GetSocialMedia(ctx context.Context, id uint) (*models.SocialMedia, error) {
+func (r *socialMediaRepo) GetSocialMedia(ctx context.Context) (*models.SocialMedia, error) {
 	socialMedia := new(models.SocialMedia)
-	return socialMedia, r.db.WithContext(ctx).Where("id = ?", id).Take(socialMedia).Error
+	sm := &[]models.SocialMedia{}
+	return socialMedia, r.db.WithContext(ctx).Find(sm).Take(socialMedia).Error
 }
 
 func (r *socialMediaRepo) EditSocialMedia(ctx context.Context, socialMedia *models.SocialMedia) error {
