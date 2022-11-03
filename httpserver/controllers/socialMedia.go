@@ -63,7 +63,7 @@ func (c *SocialMediaControllers) UpdateSocialMedia(ctx *gin.Context) {
 		})
 		return
 	}
-	claims, exists := ctx.Get("socialMediaData")
+	claims, exists := ctx.Get("userData")
 	if !exists {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 			"error": "token doesn't exists",

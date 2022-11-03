@@ -56,5 +56,5 @@ func (r *router) verifyToken(ctx *gin.Context) {
 		return
 	}
 	ctx.Set("userData", claims)
-	ctx.Set("socialMediaData", claims)
+	// ctx.Set("socialMediaData", claims)
 }
