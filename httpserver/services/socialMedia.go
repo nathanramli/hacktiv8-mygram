@@ -41,6 +41,7 @@ func (s *socialMediaSvc) CreateSocialMedia(ctx context.Context, socialMedia *par
 }
 func (s *socialMediaSvc) GetSocialMedia(ctx context.Context) *views.Response {
 	sm := models.SocialMedia{}
+	// user := models.User{}
 	// err := s.repo.GetSocialMedia(ctx)
 	// if err != nil {
 	// 	return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
