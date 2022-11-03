@@ -4,7 +4,8 @@ import "time"
 
 type SocialMedia struct {
 	Id             uint `gorm:"primaryKey;autoIncrement"`
-	UserId         User `gorm:"foreignKey:Id"`
+	UserId 	   		int
+	User         	User `gorm:"foreignKey:UserId"`
 	Name           string
 	SocialMediaUrl string
 	CreatedAt      time.Time

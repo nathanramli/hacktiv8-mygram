@@ -8,7 +8,8 @@ import (
 
 type CreateSocialMedia struct {
 	Id             uint        `json:"id"`
-	UserId         models.User `json:"user_id" gorm:"foreignKey:Id"`
+	UserId         int 		   `json:"user_id"`
+	// UserId 		models.User
 	Name           string      `json:"name"`
 	SocialMediaUrl string      `json:"social_media_url"`
 	CreatedAt      time.Time
@@ -16,7 +17,7 @@ type CreateSocialMedia struct {
 
 type GetSocialMedia struct {
 	Id             uint        `json:"id"`
-	UserId         models.User `json:"user_id" gorm:"foreignKey:Id"`
+	UserId         int         `json:"user_id" gorm:"foreignKey:UserId"`
 	Name           string      `json:"name"`
 	SocialMediaUrl string      `json:"social_media_url"`
 	CreatedAt      time.Time
@@ -26,7 +27,7 @@ type GetSocialMedia struct {
 
 type EditSocialMedia struct {
 	Id             uint        `json:"id"`
-	UserId         models.User `json:"user_id" gorm:"foreignKey:Id"`
+	UserId         int         `json:"user_id" gorm:"foreignKey:UserId"`
 	Name           string      `json:"name"`
 	SocialMediaUrl string      `json:"social_media_url"`
 	UpdatedAt      time.Time

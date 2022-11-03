@@ -21,7 +21,7 @@ func NewSocialMediaRepo(db *gorm.DB) repositories.SocialMediaRepo {
 
 func (r *socialMediaRepo) CreateSocialMedia(ctx context.Context, socialMedia *models.SocialMedia) error {
 	socialMedia.CreatedAt = time.Now()
-	return r.db.WithContext(ctx).Create(socialMedia).Error
+	return r.db.WithContext(ctx).Preload("user_id").Create(socialMedia).Error
 }
 
 func (r *socialMediaRepo) GetSocialMedia(ctx context.Context) (*models.SocialMedia, error) {
