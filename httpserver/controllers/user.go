@@ -8,7 +8,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/nathanramli/hacktiv8-mygram/common"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/params"
-	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/views"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/services"
 )
 
@@ -76,8 +75,7 @@ func (c *UserController) Update(ctx *gin.Context) {
 	}
 
 	var req params.UpdateUser
-	err = ctx.ShouldBindJSON(&req)
-	if err != nil {
+	if err = ctx.ShouldBindJSON(&req); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -92,23 +90,37 @@ func (c *UserController) Update(ctx *gin.Context) {
 		return
 	}
 
-	userData := claims.(*common.CustomClaims)
-	if userData.Id != id {
+	if userData := claims.(*common.CustomClaims); userData.Id != id {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-			"error": "token doesn't exists",
+			"error": "unauthorized to update other user data",
 		})
 		return
 	}
 
-	err = validator.New().Struct(req)
-	if err != nil {
+	if err = validator.New().Struct(req); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	WriteJsonResponse(ctx, &views.Response{Message: "OK"})
+	resp := c.svc.UpdateUser(ctx, id, &req)
+	WriteJsonResponse(ctx, resp)
+}
+
+func (c *UserController) Delete(ctx *gin.Context) {
+	claims, exist := ctx.Get("userData")
+	if !exist {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "token doesn't exists",
+		})
+		return
+	}
+
+	userData := claims.(*common.CustomClaims)
+
+	resp := c.svc.DeleteUser(ctx, userData.Id)
+	WriteJsonResponse(ctx, resp)
 }
 
 func (c *UserController) TestValidate(ctx *gin.Context) {
