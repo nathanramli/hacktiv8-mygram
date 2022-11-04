@@ -31,6 +31,15 @@ func (c *SocialMediaControllers) CreateSocialMedia(ctx *gin.Context) {
 		return
 	}
 
+	claims, exist := ctx.Get("userData")
+	if !exist {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "token doesn't exists",
+		})
+		return
+	}
+	userData := claims.(*common.CustomClaims)
+	userId := uint(userData.Id)
 	err := validator.New().Struct(request)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -38,7 +47,7 @@ func (c *SocialMediaControllers) CreateSocialMedia(ctx *gin.Context) {
 		})
 		return
 	}
-	response := c.svc.CreateSocialMedia(ctx, &request)
+	response := c.svc.CreateSocialMedia(ctx, &request, userId)
 	WriteJsonResponse(ctx, response)
 }
 func (c *SocialMediaControllers) GetSocialMedia(ctx *gin.Context) {
@@ -56,13 +65,47 @@ func (c *SocialMediaControllers) UpdateSocialMedia(ctx *gin.Context) {
 	}
 
 	var req params.UpdateSocialMedia
-	err = ctx.ShouldBindJSON(&req)
+	if err = ctx.ShouldBindJSON(&req); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	claims, exists := ctx.Get("userData")
+	if !exists {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "token doesn't exists",
+		})
+		return
+	}
+
+	if socialMediaData := claims.(*common.CustomClaims); socialMediaData.Id != id {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "unauthorized to update other socialmedia data",
+		})
+		return
+	}
+
+	if err = validator.New().Struct(req); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	resp := c.svc.UpdateSocialMedia(ctx, &req, uint(id))
+	WriteJsonResponse(ctx, resp)
+}
+
+func (c *SocialMediaControllers) DeleteSocialMedia(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
+
 	claims, exists := ctx.Get("userData")
 	if !exists {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
@@ -77,12 +120,13 @@ func (c *SocialMediaControllers) UpdateSocialMedia(ctx *gin.Context) {
 		})
 		return
 	}
-	err = validator.New().Struct(req)
+
+	_, err = c.svc.DeleteSocialMedia(ctx, uint(id))
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	WriteJsonResponse(ctx, &views.Response{Message: "OK"})
+	WriteJsonResponse(ctx, &views.Response{Message: "Your Social media has been successfully deleted"})
 }

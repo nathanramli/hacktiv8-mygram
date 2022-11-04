@@ -37,6 +37,7 @@ func (r *router) Start(port string) {
 	r.router.POST("/v1/socialmedias", r.verifyToken, r.socialMedia.CreateSocialMedia)
 	r.router.GET("/v1/socialmedias", r.verifyToken, r.socialMedia.GetSocialMedia)
 	r.router.PUT("/v1/socialmedias/:socialMediaId", r.verifyToken, r.socialMedia.UpdateSocialMedia)
+	r.router.DELETE("/v1/socialmedias/:socialMediaId", r.verifyToken, r.socialMedia.DeleteSocialMedia)
 
 	r.router.Run(port)
 }
