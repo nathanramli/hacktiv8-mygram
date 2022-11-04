@@ -15,7 +15,8 @@ type UserSvc interface {
 }
 
 type SocialMediaSvc interface {
-	CreateSocialMedia(ctx context.Context, socialMedia *params.CreateSocialMedia) *views.Response
+	CreateSocialMedia(ctx context.Context, socialMedia *params.CreateSocialMedia, UserID uint) *views.Response
 	GetSocialMedia(ctx context.Context) *views.Response
 	UpdateSocialMedia(ctx context.Context, socialMedia *params.UpdateSocialMedia, id uint) *views.Response
+	DeleteSocialMedia(ctx context.Context, id uint) (*views.Response, error)
 }
