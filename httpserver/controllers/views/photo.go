@@ -6,30 +6,30 @@ import (
 )
 
 type CreatePhoto struct {
-	Id       uint    	  `json:"id"`
+	Id       int    	  `json:"id"`
 	Title    string    	  `json:"title"`
 	Caption  string 	  `json:"caption"`
 	PhotoUrl string 	  `json:"photo_url"`
-	UserId 	 uint  `json:"user_id`
-	CreatedAt time.Time 
+	UserId 	 int  		  `json:"user_id"`
+	CreatedAt time.Time   `json:"created_at"`
 }
 
 type GetPhotos struct {
-	Id       uint    	  `json:"id"`
+	Id       int    	  `json:"id"`
 	Title    string    	  `json:"title"`
 	Caption  string 	  `json:"caption"`
 	PhotoUrl string 	  `json:"photo_url"`
-	UserId 	 uint 		  `json:"user_id`
+	UserId 	 int 		  `json:"user_id"`
 	CreatedAt time.Time 
 	UpdatedAt time.Time
 	User 	 models.User  `json:"user"`
 }
 
 type UpdatePhoto struct {
-	Id       uint    	  `json:"id"`
+	Id       int    	  `json:"id"`
 	Title    string    	  `json:"title"`
 	Caption  string 	  `json:"caption"`
 	PhotoUrl string 	  `json:"photo_url"`
-	UserId 	 uint  `json:"user_id`
+	UserId 	 int  `json:"user_id"`
 	UpdatedAt time.Time 
 }

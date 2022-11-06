@@ -6,7 +6,6 @@ import (
 	// "github.com/dgrijalva/jwt-go"
 	"github.com/nathanramli/hacktiv8-mygram/common"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/params"
-	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/views"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/services"
 	"net/http"
 	"strconv"
@@ -41,7 +40,7 @@ func (c *PhotoController) CreatePhoto(ctx *gin.Context) {
 	}
 	
 	userData := claims.(*common.CustomClaims)
-	userId := uint(userData.Id)
+	userId := int(userData.Id)
 	err := validator.New().Struct(req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -75,6 +74,16 @@ func (c *PhotoController) UpdatePhoto(ctx *gin.Context) {
 		})
 		return
 	}
+
+	photo, err := c.svc.GetPhotoByID(ctx, id)
+
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "token doesn't exists",
+		})
+		return
+	}
+
 	claims, exists := ctx.Get("userData")
 	if !exists {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
@@ -83,12 +92,61 @@ func (c *PhotoController) UpdatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	photoData := claims.(*common.CustomClaims)
-	if photoData.Id != id {
+	userData := claims.(*common.CustomClaims)
+	if userData.Id != photo.UserId {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"error": "token doesn't exists",
 			})
 		return
 	}
-	WriteJsonResponse(ctx, &views.Response{Message: "OK"})
+
+	err = validator.New().Struct(req)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	response := c.svc.UpdatePhoto(ctx, &req, id)
+	
+	WriteJsonResponse(ctx, response)
+}
+
+func (c *PhotoController) DeletePhoto(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("photoId"))
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	photo, err := c.svc.GetPhotoByID(ctx, id)
+
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "token doesn't exists",
+		})
+		return
+	}
+
+	claims, exists := ctx.Get("userData")
+	if !exists {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "token doesn't exists",
+		})
+		return
+	}
+
+	userData := claims.(*common.CustomClaims)
+	if userData.Id != photo.UserId {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error": "token doesn't exists",
+			})
+		return
+	}
+	response := c.svc.DeletePhoto(ctx, id)
+	
+	WriteJsonResponse(ctx, response)
 }

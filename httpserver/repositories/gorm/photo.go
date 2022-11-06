@@ -37,7 +37,18 @@ func (r *photoRepo) GetPhotos(ctx context.Context) ([]models.Photo, error) {
 	
 }
 
+func (r *photoRepo) FindPhotoByID(ctx context.Context, id int) (*models.Photo, error) {
+	photo := new(models.Photo)
+	err := r.db.WithContext(ctx).Where("id = ?", id).Take(photo).Error
+	return photo, err
+}
+
 func (r *photoRepo) UpdatePhoto(ctx context.Context, photo *models.Photo) error {
 	photo.UpdatedAt = time.Now()
-	return r.db.WithContext(ctx).Model(photo).Updates(*photo).Error
+	err := r.db.WithContext(ctx).Model(photo).Updates(*photo).Error
+	return err
+}
+
+func (r *photoRepo) DeletePhoto(ctx context.Context, id int) error {
+	return r.db.WithContext(ctx).Delete(&models.Photo{}, "id = ?", id).Error
 }

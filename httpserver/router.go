@@ -35,6 +35,7 @@ func (r *router) Start(port string) {
 	r.router.POST("/v1/photos", r.verifyToken, r.photo.CreatePhoto)
 	r.router.GET("/v1/photos", r.verifyToken, r.photo.GetPhotos)
 	r.router.PUT("/v1/photos/:photoId", r.verifyToken, r.photo.UpdatePhoto)
+	r.router.DELETE("/v1/photos/:photoId", r.verifyToken, r.photo.DeletePhoto)
 
 	r.router.Run(port)
 }

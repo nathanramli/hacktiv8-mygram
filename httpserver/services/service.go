@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/params"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/views"
+	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories/models"
 )
 
 type UserSvc interface {
@@ -12,7 +13,9 @@ type UserSvc interface {
 }
 
 type PhotoSvc interface {
-	CreatePhoto(ctx context.Context, photo *params.CreatePhoto, UserID uint) *views.Response
+	CreatePhoto(ctx context.Context, photo *params.CreatePhoto, UserID int) *views.Response
 	GetPhotos(ctx context.Context) *views.Response
-	UpdatePhoto(ctx context.Context, photo *params.UpdatePhoto, id uint) *views.Response
+	UpdatePhoto(ctx context.Context, photo *params.UpdatePhoto, id int) *views.Response
+	GetPhotoByID(ctx context.Context, id int) (*models.Photo, error)
+	DeletePhoto(ctx context.Context, id int) *views.Response
 }
