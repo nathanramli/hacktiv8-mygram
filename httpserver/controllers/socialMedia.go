@@ -51,7 +51,10 @@ func (c *SocialMediaControllers) CreateSocialMedia(ctx *gin.Context) {
 	WriteJsonResponse(ctx, response)
 }
 func (c *SocialMediaControllers) GetSocialMedia(ctx *gin.Context) {
-	response := c.svc.GetSocialMedia(ctx)
+	// get username's data from register
+	var req params.Register
+
+	response := c.svc.GetSocialMedia(ctx, &req)
 	WriteJsonResponse(ctx, response)
 }
 

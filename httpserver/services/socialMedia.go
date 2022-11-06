@@ -43,8 +43,12 @@ func (s *socialMediaSvc) CreateSocialMedia(ctx context.Context, socialMedia *par
 		CreatedAt:      sm.CreatedAt,
 	})
 }
-func (s *socialMediaSvc) GetSocialMedia(ctx context.Context) *views.Response {
-	var paramsUser views.Register
+func (s *socialMediaSvc) GetSocialMedia(ctx context.Context, user *params.Register) *views.Response {
+	// var paramsUser views.Register
+	model := models.User{
+		Username: user.Username,
+	}
+
 	sm, err := s.repo.GetSocialMedia(ctx)
 
 	if err != nil {
@@ -62,7 +66,7 @@ func (s *socialMediaSvc) GetSocialMedia(ctx context.Context) *views.Response {
 			User: views.ViewsGetSocialMedia{
 				Id:             uint(v.UserId),
 				SocialMediaUrl: v.SocialMediaUrl,
-				UserName:       paramsUser.Username,
+				UserName:       model.Username,
 			},
 		})
 
