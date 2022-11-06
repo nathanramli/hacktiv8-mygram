@@ -56,7 +56,8 @@ func (c *SocialMediaControllers) GetSocialMedia(ctx *gin.Context) {
 }
 
 func (c *SocialMediaControllers) UpdateSocialMedia(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
+	id, err := strconv.Atoi(ctx.Param("socialMediaId")) // id for param
+	// log.Println("id nya", id)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),

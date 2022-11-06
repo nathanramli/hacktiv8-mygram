@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/views"
+)
 
 type SocialMedia struct {
 	Id             uint `gorm:"primaryKey;autoIncrement"`
@@ -9,5 +13,5 @@ type SocialMedia struct {
 	SocialMediaUrl string
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
-	User           User
+	User           views.ViewsGetSocialMedia
 }

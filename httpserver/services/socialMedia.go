@@ -44,13 +44,13 @@ func (s *socialMediaSvc) CreateSocialMedia(ctx context.Context, socialMedia *par
 	})
 }
 func (s *socialMediaSvc) GetSocialMedia(ctx context.Context) *views.Response {
-	// user := models.User{}
+	var paramsUser views.Register
 	sm, err := s.repo.GetSocialMedia(ctx)
+
 	if err != nil {
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
 	socialMediaViews := make([]views.GetSocialMedia, 0)
-	// userViews := make([]views.Register, 0)
 	for _, v := range sm {
 		socialMediaViews = append(socialMediaViews, views.GetSocialMedia{
 			Id:             v.Id,
@@ -59,39 +59,44 @@ func (s *socialMediaSvc) GetSocialMedia(ctx context.Context) *views.Response {
 			UserId:         uint(v.UserId),
 			CreatedAt:      v.CreatedAt,
 			UpdatedAt:      v.UpdatedAt,
-			User:           v.User,
+			User: views.ViewsGetSocialMedia{
+				Id:             uint(v.UserId),
+				SocialMediaUrl: v.SocialMediaUrl,
+				UserName:       paramsUser.Username,
+			},
 		})
+
 	}
 	return views.SuccessResponse(http.StatusOK, views.M_OK, socialMediaViews)
 }
 
 func (s *socialMediaSvc) UpdateSocialMedia(ctx context.Context, socialMedia *params.UpdateSocialMedia, id uint) *views.Response {
-	model, err := s.repo.GetSocialMediaByID(ctx, int(id))
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return views.ErrorResponse(http.StatusBadRequest, views.M_BAD_REQUEST, err)
-		}
-		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
-	}
-	model.Name = socialMedia.Name
-	model.SocialMediaUrl = socialMedia.SocialMediaUrl
-	model.UserId = int(id)
-	// sm := models.SocialMedia{
-	// 	Name:           socialMedia.Name,
-	// 	SocialMediaUrl: socialMedia.SocialMediaUrl,
-	// 	UserId:         int(id),
+	// model, err := s.repo.GetSocialMediaByID(ctx, int(id))
+	// if err != nil {
+	// 	if err == gorm.ErrRecordNotFound {
+	// 		return views.ErrorResponse(http.StatusBadRequest, views.M_BAD_REQUEST, err)
+	// 	}
+	// 	return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	// }
-	// sm.Id = id
+	// model.Name = socialMedia.Name
+	// model.SocialMediaUrl = socialMedia.SocialMediaUrl
+	// model.UserId = int(id)
+	sm := models.SocialMedia{
+		Name:           socialMedia.Name,
+		SocialMediaUrl: socialMedia.SocialMediaUrl,
+		// UserId:         int(id),
+	}
+	sm.Id = id
 
-	if err = s.repo.EditSocialMedia(ctx, model); err != nil {
+	if err := s.repo.EditSocialMedia(ctx, &sm); err != nil {
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
 	return views.SuccessResponse(http.StatusOK, views.M_OK, views.EditSocialMedia{
-		Id:             model.Id,
-		Name:           model.Name,
-		SocialMediaUrl: model.SocialMediaUrl,
-		UserId:         uint(model.UserId),
-		UpdatedAt:      model.UpdatedAt,
+		Id:             sm.Id,
+		Name:           sm.Name,
+		SocialMediaUrl: sm.SocialMediaUrl,
+		UserId:         uint(sm.UserId),
+		UpdatedAt:      sm.UpdatedAt,
 	})
 }
 
