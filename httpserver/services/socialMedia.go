@@ -71,16 +71,6 @@ func (s *socialMediaSvc) GetSocialMedia(ctx context.Context) *views.Response {
 }
 
 func (s *socialMediaSvc) UpdateSocialMedia(ctx context.Context, socialMedia *params.UpdateSocialMedia, id uint) *views.Response {
-	// model, err := s.repo.GetSocialMediaByID(ctx, int(id))
-	// if err != nil {
-	// 	if err == gorm.ErrRecordNotFound {
-	// 		return views.ErrorResponse(http.StatusBadRequest, views.M_BAD_REQUEST, err)
-	// 	}
-	// 	return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
-	// }
-	// model.Name = socialMedia.Name
-	// model.SocialMediaUrl = socialMedia.SocialMediaUrl
-	// model.UserId = int(id)
 	sm := models.SocialMedia{
 		Name:           socialMedia.Name,
 		SocialMediaUrl: socialMedia.SocialMediaUrl,
