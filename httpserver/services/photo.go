@@ -13,11 +13,13 @@ import (
 
 type photoSvc struct {
 	repo repositories.PhotoRepo
+	user repositories.UserRepo
 }
 
-func NewPhotoSvc(repo repositories.PhotoRepo) PhotoSvc {
+func NewPhotoSvc(repo repositories.PhotoRepo, user repositories.UserRepo) PhotoSvc {
 	return &photoSvc{
 		repo: repo,
+		user: user,
 	}
 }
 
@@ -51,9 +53,61 @@ func (s *photoSvc) GetPhotos(ctx context.Context) *views.Response {
 	if err != nil {
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
+  
+	// for _, photo := range p {
+	// 	{
+			
+	// 	}
+	// }
 
-	return views.SuccessResponse(http.StatusOK, views.M_OK, p)
-}
+	// u, err := s.user.FindUserByID(ctx, )
+	
+	photoViews := make([]views.GetPhotos, 0)
+	// photoViews := make([]views.GetSocialMedia, 0)
+	for _, v := range p {
+		u, err := s.user.FindUserByID(ctx, v.UserId)
+		if err != nil {
+			return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+		}
+
+		photoView := views.UserGetPhoto{
+			Email: u.Email,
+			Username: u.Username,
+		}
+		photoViews = append(photoViews, views.GetPhotos{
+			Id:             v.Id,
+			Title:           v.Title,
+			Caption: v.Caption,
+			PhotoUrl: v.PhotoUrl,
+			UserId:         v.UserId,
+			CreatedAt:      v.CreatedAt,
+			UpdatedAt:      v.UpdatedAt,
+			User:	photoView,
+		})
+		}
+		return views.SuccessResponse(http.StatusOK, views.M_OK, photoViews)
+	}
+	// for _, v := range p {
+	// 	photoView := views.GetPhotos{
+	// 		Id:             v.Id,
+	// 		Title:          v.Title,
+	// 		Caption: 		v.Caption,
+	// 		PhotoUrl: 		v.PhotoUrl,
+	// 		UserId:         v.UserId,
+	// 		CreatedAt:      v.CreatedAt,
+	// 		UpdatedAt:      v.UpdatedAt,
+	// 	}
+	// 	u, err := s.user.FindUserByID(ctx, v.UserId)
+	// 	if err != nil {
+	// 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+	// 	}
+	// 	photoView.User = views.UserGetPhoto{
+	// 		Email: u.Email,
+	// 		Username: u.Username,
+	// 	}
+	// 	photoViews = append(photoViews, photoView)
+	// }
+	
 
 func (s *photoSvc) GetPhotoByID(ctx context.Context, id int) (*models.Photo, error){
 	p, err := s.repo.FindPhotoByID(ctx, id)

@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import 
+	"time"
+	
 
 type Photo struct {
 	Id     	  int       `gorm:"primaryKey;autoIncrement"`

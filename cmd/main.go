@@ -23,7 +23,7 @@ func main() {
 	userHandler := controllers.NewUserController(userSvc)
 
 	photoRepo := gorm.NewPhotoRepo(db)
-	photoSvc := services.NewPhotoSvc(photoRepo)
+	photoSvc := services.NewPhotoSvc(photoRepo, userRepo)
 	photoHandler := controllers.NewPhotoController(photoSvc)
 
 	app := httpserver.NewRouter(router, userHandler, photoHandler)
