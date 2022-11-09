@@ -38,6 +38,14 @@ func main() {
 	socialMediaSvc := services.NewSocialMediaSvc(socialMediaRepo)
 	socialMediaHandler := controllers.NewSocialMediaController(socialMediaSvc)
 
-	app := httpserver.NewRouter(router, userHandler, socialMediaHandler)
+	photoRepo := gorm.NewPhotoRepo(db)
+	photoSvc := services.NewPhotoSvc(photoRepo, userRepo)
+	photoHandler := controllers.NewPhotoController(photoSvc)
+
+	commentRepo := gorm.NewCommentRepo(db)
+	commentSvc := services.NewCommentSvc(commentRepo, userRepo, photoRepo)
+	commentHandler := controllers.NewCommentController(commentSvc)
+
+	app := httpserver.NewRouter(router, userHandler, photoHandler, commentHandler, socialMediaHandler)
 	app.Start(":" + os.Getenv("PORT"))
 }

@@ -26,8 +26,9 @@ func ConnectPostgresGORM() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.Debug().AutoMigrate(models.User{})
+	// db.Debug().AutoMigrate(models.User{})
 	db.Debug().AutoMigrate(models.SocialMedia{})
+	db.Debug().AutoMigrate(models.User{}, models.Photo{}, models.Comment{})
 
 	return db, nil
 }
