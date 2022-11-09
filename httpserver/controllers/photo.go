@@ -78,8 +78,8 @@ func (c *PhotoController) UpdatePhoto(ctx *gin.Context) {
 	photo, err := c.svc.GetPhotoByID(ctx, id)
 
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-			"error": "token doesn't exists",
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
 		})
 		return
 	}
@@ -95,7 +95,7 @@ func (c *PhotoController) UpdatePhoto(ctx *gin.Context) {
 	userData := claims.(*common.CustomClaims)
 	if userData.Id != photo.UserId {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error": "token doesn't exists",
+				"error": "Unauthorizrd User",
 			})
 		return
 	}
@@ -125,8 +125,8 @@ func (c *PhotoController) DeletePhoto(ctx *gin.Context) {
 	photo, err := c.svc.GetPhotoByID(ctx, id)
 
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-			"error": "token doesn't exists",
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
 		})
 		return
 	}
@@ -142,7 +142,7 @@ func (c *PhotoController) DeletePhoto(ctx *gin.Context) {
 	userData := claims.(*common.CustomClaims)
 	if userData.Id != photo.UserId {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error": "token doesn't exists",
+				"error": "Unauthorized User",
 			})
 		return
 	}
