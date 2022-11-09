@@ -14,13 +14,15 @@ type router struct {
 
 	user *controllers.UserController
 	photo *controllers.PhotoController
+	comment *controllers.CommentController
 }
 
-func NewRouter(r *gin.Engine, user *controllers.UserController, photo *controllers.PhotoController) *router {
+func NewRouter(r *gin.Engine, user *controllers.UserController, photo *controllers.PhotoController, comment *controllers.CommentController) *router {
 	return &router{
 		router: r,
 		user:   user,
 		photo: photo,
+		comment: comment,
 	}
 }
 
@@ -36,6 +38,10 @@ func (r *router) Start(port string) {
 	r.router.GET("/v1/photos", r.verifyToken, r.photo.GetPhotos)
 	r.router.PUT("/v1/photos/:photoId", r.verifyToken, r.photo.UpdatePhoto)
 	r.router.DELETE("/v1/photos/:photoId", r.verifyToken, r.photo.DeletePhoto)
+
+	//comment
+	r.router.POST("/v1/comments", r.verifyToken, r.comment.CreateComment)
+	r.router.GET("/v1/comments", r.verifyToken, r.comment.GetComments)
 
 	r.router.Run(port)
 }

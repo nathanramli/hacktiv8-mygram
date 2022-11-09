@@ -20,3 +20,8 @@ type PhotoRepo interface {
 	FindPhotoByID(ctx context.Context, id int) (*models.Photo, error)
 	DeletePhoto(ctx context.Context, id int) error
 }
+
+type CommentRepo interface {
+	CreateComment(ctx context.Context, comment *models.Comment) error
+	GetComments(ctx context.Context) ([]models.Comment, error)
+}

@@ -19,3 +19,8 @@ type PhotoSvc interface {
 	GetPhotoByID(ctx context.Context, id int) (*models.Photo, error)
 	DeletePhoto(ctx context.Context, id int) *views.Response
 }
+
+type CommentSvc interface {
+	CreateComment(ctx context.Context, comment *params.CreateComment, UserID int) *views.Response
+	GetComments(ctx context.Context) *views.Response
+}
