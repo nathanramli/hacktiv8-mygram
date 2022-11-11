@@ -34,5 +34,20 @@ func (r *commentRepo) GetComments(ctx context.Context) ([]models.Comment, error)
 		return comments, err
 	}
 	return comments, nil
-	
+}
+
+func (r *commentRepo) FindCommentByID(ctx context.Context, id int) (*models.Comment, error) {
+	comment := new(models.Comment)
+	err := r.db.WithContext(ctx).Where("id = ?", id).Take(comment).Error
+	return comment, err
+}
+
+func (r *commentRepo) UpdateComment(ctx context.Context, comment *models.Comment, id int) error {
+	comment.UpdatedAt = time.Now()
+	err := r.db.WithContext(ctx).Model(comment).Where("id = ?", id).Updates(*comment).Error
+	return err
+}
+
+func (r *commentRepo) DeleteComment(ctx context.Context, id int) error {
+	return r.db.WithContext(ctx).Delete(&models.Comment{}, "id = ?", id).Error
 }

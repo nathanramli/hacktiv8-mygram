@@ -43,9 +43,9 @@ func (r *photoRepo) FindPhotoByID(ctx context.Context, id int) (*models.Photo, e
 	return photo, err
 }
 
-func (r *photoRepo) UpdatePhoto(ctx context.Context, photo *models.Photo) error {
+func (r *photoRepo) UpdatePhoto(ctx context.Context, photo *models.Photo, id int) error {
 	photo.UpdatedAt = time.Now()
-	err := r.db.WithContext(ctx).Model(photo).Updates(*photo).Error
+	err := r.db.WithContext(ctx).Model(photo).Where("id = ?", id).Updates(*photo).Error
 	return err
 }
 

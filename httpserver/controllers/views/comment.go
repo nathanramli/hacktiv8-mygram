@@ -38,3 +38,11 @@ type PhotoGetComment struct {
 	UserId 	 int  		  `json:"user_id"`
 }
 
+type UpdateComment struct {
+	Id       int    	  `json:"id"`
+	Message  string       `json:"message"`
+	PhotoId  int 	      `json:"photo_id"`
+	UserId 	 int 		  `json:"user_id"`
+	UpdatedAt time.Time	  `json:"updated_at"`
+}
+

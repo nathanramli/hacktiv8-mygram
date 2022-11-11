@@ -16,7 +16,7 @@ type UserRepo interface {
 type PhotoRepo interface {
 	CreatePhoto(ctx context.Context, photo *models.Photo) error
 	GetPhotos(ctx context.Context) ([]models.Photo, error)
-	UpdatePhoto(ctx context.Context, photo *models.Photo) error
+	UpdatePhoto(ctx context.Context, photo *models.Photo, id int) error
 	FindPhotoByID(ctx context.Context, id int) (*models.Photo, error)
 	DeletePhoto(ctx context.Context, id int) error
 }
@@ -24,4 +24,7 @@ type PhotoRepo interface {
 type CommentRepo interface {
 	CreateComment(ctx context.Context, comment *models.Comment) error
 	GetComments(ctx context.Context) ([]models.Comment, error)
+	FindCommentByID(ctx context.Context, id int) (*models.Comment, error)
+	UpdateComment(ctx context.Context, comment *models.Comment, id int) error
+	DeleteComment(ctx context.Context, id int) error
 }

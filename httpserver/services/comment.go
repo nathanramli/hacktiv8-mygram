@@ -8,7 +8,7 @@ import (
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/views"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories/models"
-	// "gorm.io/gorm"
+	"gorm.io/gorm"
 )
 
 type commentSvc struct {
@@ -92,4 +92,61 @@ func (s *commentSvc) GetComments(ctx context.Context) *views.Response {
 		}
 
 		return views.SuccessResponse(http.StatusOK, views.M_OK, commentViews)
+}
+
+func (s *commentSvc) GetCommentByID(ctx context.Context, id int) (*models.Comment, error){
+	c, err := s.repo.FindCommentByID(ctx, id)
+	if err != nil {
+		return c, err
+	}
+
+	if c.Id == 0 {
+		return c, nil
+	}
+
+	return c, nil
+}
+
+
+func (s *commentSvc) UpdateComment(ctx context.Context, comment *params.UpdateComment, id int) *views.Response {
+	
+	c, err := s.repo.FindCommentByID(ctx, id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return views.ErrorResponse(http.StatusBadRequest, views.M_BAD_REQUEST, err)
+		}
+		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+	}
+
+	//request
+	c.Message = comment.Message
+
+	err = s.repo.UpdateComment(ctx, c, id)
+	if err != nil {
+		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+	}
+
+	return views.SuccessResponse(http.StatusOK, views.M_OK, views.UpdateComment{
+		Id:             c.Id,
+		Message:        c.Message,
+		PhotoId: 		c.PhotoId,
+		UserId:			c.UserId,
+		UpdatedAt:      c.UpdatedAt,
+	})
+}
+
+func (s *commentSvc) DeleteComment(ctx context.Context, id int) *views.Response {
+	_, err := s.repo.FindCommentByID(ctx, id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return views.ErrorResponse(http.StatusBadRequest, views.M_BAD_REQUEST, err)
+		}
+		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+	}
+
+	if err = s.repo.DeleteComment(ctx, id); err != nil {
+		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+	}
+
+	return views.SuccessResponse(http.StatusOK, views.M_PHOTO_SUCCESSFULLY_DELETED, nil)
 }

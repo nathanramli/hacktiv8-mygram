@@ -42,6 +42,8 @@ func (r *router) Start(port string) {
 	//comment
 	r.router.POST("/v1/comments", r.verifyToken, r.comment.CreateComment)
 	r.router.GET("/v1/comments", r.verifyToken, r.comment.GetComments)
+	r.router.PUT("/v1/comments/:commentId", r.verifyToken, r.comment.UpdateComment)
+	r.router.DELETE("/v1/comments/:commentId", r.verifyToken, r.comment.DeleteComment)
 
 	r.router.Run(port)
 }

@@ -54,14 +54,6 @@ func (s *photoSvc) GetPhotos(ctx context.Context) *views.Response {
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
   
-	// for _, photo := range p {
-	// 	{
-			
-	// 	}
-	// }
-
-	// u, err := s.user.FindUserByID(ctx, )
-	
 	photoViews := make([]views.GetPhotos, 0)
 	// photoViews := make([]views.GetSocialMedia, 0)
 	for _, v := range p {
@@ -87,27 +79,6 @@ func (s *photoSvc) GetPhotos(ctx context.Context) *views.Response {
 		}
 		return views.SuccessResponse(http.StatusOK, views.M_OK, photoViews)
 	}
-	// for _, v := range p {
-	// 	photoView := views.GetPhotos{
-	// 		Id:             v.Id,
-	// 		Title:          v.Title,
-	// 		Caption: 		v.Caption,
-	// 		PhotoUrl: 		v.PhotoUrl,
-	// 		UserId:         v.UserId,
-	// 		CreatedAt:      v.CreatedAt,
-	// 		UpdatedAt:      v.UpdatedAt,
-	// 	}
-	// 	u, err := s.user.FindUserByID(ctx, v.UserId)
-	// 	if err != nil {
-	// 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
-	// 	}
-	// 	photoView.User = views.UserGetPhoto{
-	// 		Email: u.Email,
-	// 		Username: u.Username,
-	// 	}
-	// 	photoViews = append(photoViews, photoView)
-	// }
-	
 
 func (s *photoSvc) GetPhotoByID(ctx context.Context, id int) (*models.Photo, error){
 	p, err := s.repo.FindPhotoByID(ctx, id)
@@ -124,7 +95,6 @@ func (s *photoSvc) GetPhotoByID(ctx context.Context, id int) (*models.Photo, err
 
 
 func (s *photoSvc) UpdatePhoto(ctx context.Context, photo *params.UpdatePhoto, id int) *views.Response {
-	//request
 	p, err := s.repo.FindPhotoByID(ctx, id)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -133,7 +103,14 @@ func (s *photoSvc) UpdatePhoto(ctx context.Context, photo *params.UpdatePhoto, i
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
 
-	err = s.repo.UpdatePhoto(ctx, p)
+	//request
+	pReq := models.Photo{
+		Title:	  photo.Title,
+		Caption:  photo.Caption,
+		PhotoUrl: photo.PhotoUrl,
+	}
+
+	err = s.repo.UpdatePhoto(ctx, &pReq, id)
 	if err != nil {
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
