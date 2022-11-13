@@ -44,7 +44,7 @@ func (c *CommentController) CreateComment(ctx *gin.Context) {
 	}
 
 	userData := claims.(*common.CustomClaims)
-	userId := int(userData.Id)
+	userId := userData.Id
 	err := validator.New().Struct(req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -103,5 +103,41 @@ func (c *CommentController) EditComment(ctx *gin.Context) {
 	}
 
 	response := c.svc.EditComments(ctx, &req, uint(id))
+	WriteJsonResponse(ctx, response)
+}
+
+func (c *CommentController) DeleteComment(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("commentId"))
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	comment, err := c.svc.GetCommentByID(ctx, id)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	claims, exists := ctx.Get("userData")
+	if !exists {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "token doesn't exists",
+		})
+		return
+	}
+
+	userData := claims.(*common.CustomClaims)
+	if userData.Id != comment.UserId {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"error": "unauthorized user",
+		})
+		return
+	}
+
+	response := c.svc.DeleteComment(ctx, uint(id))
 	WriteJsonResponse(ctx, response)
 }

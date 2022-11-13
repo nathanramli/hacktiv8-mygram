@@ -17,6 +17,7 @@ const (
 	M_USERNAME_ALREADY_USED        = "USERNAME_ALREADY_USED"
 	M_ACCOUNT_SUCCESSFULLY_DELETED = "Your account has been successfully deleted"
 	M_PHOTO_SUCCESSFULLY_DELETED   = "Your photo has been successfully deleted"
+	M_COMMENT_SUCCESSFULLY_DELETED = "Your comment has been successfully deleted"
 )
 
 func SuccessResponse(status int, message string, payload interface{}) *Response {

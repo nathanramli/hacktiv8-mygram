@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/params"
@@ -28,14 +29,21 @@ func NewCommentSvc(repo repositories.CommentRepo, user repositories.UserRepo, ph
 }
 
 func (s *commentSvc) CreateComment(ctx context.Context, comment *params.CreateComment, UserID int) *views.Response {
-	//request
 	p := models.Comment{
 		Message: comment.Message,
 		PhotoId: comment.PhotoId,
 		UserId:  UserID,
 	}
 
-	err := s.repo.CreateComment(ctx, &p)
+	_, err := s.photo.FindPhotoByID(ctx, comment.PhotoId)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return views.ErrorResponse(http.StatusBadRequest, views.M_BAD_REQUEST, errors.New("invalid id photo"))
+		}
+		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+	}
+
+	err = s.repo.CreateComment(ctx, &p)
 	if err != nil {
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
@@ -116,27 +124,15 @@ func (s *commentSvc) EditComments(ctx context.Context, comments *params.UpdateCo
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
 
+	c.Message = comments.Message
 	err = s.repo.EditComments(ctx, c)
 	if err != nil {
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
-
 	}
 
 	user, err := s.user.FindUserByID(ctx, c.UserId)
 	photo, err := s.photo.FindPhotoByID(ctx, c.PhotoId)
 
-	// userComment := views.UserGetComment{
-	// 	Id: user.Id,
-	// 	Email: user.Email,
-	// 	Username: user.Username,
-	// }
-	// photoComment := views.PhotoGetComment{
-	// 	Id: photo.Id,
-	// 	Title: photo.Title,
-	// 	Caption: photo.Caption,
-	// 	PhotoUrl: photo.PhotoUrl,
-	// 	UserId: photo.UserId,
-	// }
 	return views.SuccessResponse(http.StatusOK, views.M_OK, views.EditComments{
 		Id:        c.Id,
 		Title:     photo.Title,
@@ -145,5 +141,13 @@ func (s *commentSvc) EditComments(ctx context.Context, comments *params.UpdateCo
 		UserId:    user.Id,
 		UpdatedAt: c.UpdatedAt,
 	})
-	// return views.SuccessResponse(http.StatusOK, views.M_OK, )
+}
+
+func (s *commentSvc) DeleteComment(ctx context.Context, id uint) *views.Response {
+	err := s.repo.DeleteComments(ctx, id)
+	if err != nil {
+		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
+	}
+
+	return views.SuccessResponse(http.StatusOK, views.M_COMMENT_SUCCESSFULLY_DELETED, nil)
 }

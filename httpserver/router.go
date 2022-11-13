@@ -53,6 +53,7 @@ func (r *router) Start(port string) {
 	r.router.POST("/v1/comments", r.verifyToken, r.comment.CreateComment)
 	r.router.GET("/v1/comments", r.verifyToken, r.comment.GetComments)
 	r.router.PUT("/v1/comments/:commentId", r.verifyToken, r.comment.EditComment)
+	r.router.DELETE("/v1/comments/:commentId", r.verifyToken, r.comment.DeleteComment)
 
 	r.router.Run(port)
 }
@@ -73,5 +74,4 @@ func (r *router) verifyToken(ctx *gin.Context) {
 		return
 	}
 	ctx.Set("userData", claims)
-	// ctx.Set("socialMediaData", claims)
 }

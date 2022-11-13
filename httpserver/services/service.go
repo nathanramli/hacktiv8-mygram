@@ -35,4 +35,5 @@ type CommentSvc interface {
 	GetComments(ctx context.Context) *views.Response
 	EditComments(ctx context.Context, comments *params.UpdateComment, id uint) *views.Response
 	GetCommentByID(ctx context.Context, id int) (*models.Comment, error)
+	DeleteComment(ctx context.Context, id uint) *views.Response
 }
