@@ -3,6 +3,10 @@ package services
 import (
 	"context"
 	"errors"
+	"net/http"
+	"strings"
+	"time"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/nathanramli/hacktiv8-mygram/common"
 	"github.com/nathanramli/hacktiv8-mygram/config"
@@ -12,9 +16,6 @@ import (
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories/models"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"net/http"
-	"strings"
-	"time"
 )
 
 type userSvc struct {
@@ -47,6 +48,7 @@ func (s *userSvc) Register(ctx context.Context, user *params.Register) *views.Re
 		return views.ErrorResponse(http.StatusInternalServerError, views.M_INTERNAL_SERVER_ERROR, err)
 	}
 
+	// request
 	model := models.User{
 		Age:      user.Age,
 		Username: user.Username,

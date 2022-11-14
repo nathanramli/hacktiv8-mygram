@@ -1,13 +1,14 @@
 package controllers
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/nathanramli/hacktiv8-mygram/common"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/controllers/params"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/services"
-	"net/http"
-	"strconv"
 )
 
 type UserController struct {
@@ -120,4 +121,11 @@ func (c *UserController) Delete(ctx *gin.Context) {
 
 	resp := c.svc.DeleteUser(ctx, userData.Id)
 	WriteJsonResponse(ctx, resp)
+}
+
+func (c *UserController) TestValidate(ctx *gin.Context) {
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": "i'm Logging in",
+	})
 }
