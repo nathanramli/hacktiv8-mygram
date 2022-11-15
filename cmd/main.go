@@ -47,5 +47,6 @@ func main() {
 	commentHandler := controllers.NewCommentController(commentSvc)
 
 	app := httpserver.NewRouter(router, userHandler, photoHandler, commentHandler, socialMediaHandler)
-	app.Start(":" + os.Getenv("PORT"))
+	PORT := os.Getenv("PORT")
+	app.Start(":" + PORT)
 }
