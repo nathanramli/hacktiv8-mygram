@@ -117,9 +117,9 @@ func (s *photoSvc) UpdatePhoto(ctx context.Context, photo *params.UpdatePhoto, i
 
 	return views.SuccessResponse(http.StatusOK, views.M_OK, views.UpdatePhoto{
 		Id:             p.Id,
-		Title:          p.Title,
-		Caption: 		p.Caption,
-		PhotoUrl:       p.PhotoUrl,
+		Title:          pReq.Title,
+		Caption: 		pReq.Caption,
+		PhotoUrl:       pReq.PhotoUrl,
 		UserId:			p.UserId,
 		UpdatedAt:      p.UpdatedAt,
 	})
