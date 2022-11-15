@@ -33,7 +33,7 @@ type PhotoSvc interface {
 type CommentSvc interface {
 	CreateComment(ctx context.Context, comment *params.CreateComment, UserID int) *views.Response
 	GetComments(ctx context.Context) *views.Response
-	EditComments(ctx context.Context, comments *params.UpdateComment, id uint) *views.Response
+	UpdateComment(ctx context.Context, comment *params.UpdateComment, id int) *views.Response
 	GetCommentByID(ctx context.Context, id int) (*models.Comment, error)
-	DeleteComment(ctx context.Context, id uint) *views.Response
+	DeleteComment(ctx context.Context, id int) *views.Response
 }

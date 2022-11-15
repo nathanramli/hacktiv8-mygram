@@ -6,22 +6,22 @@ import (
 )
 
 type CreateComment struct {
-	Id        int       `json:"id"`
-	Message   string    `json:"message"`
-	PhotoId   int       `json:"photo_id"`
-	UserId    int       `json:"user_id"`
-	CreatedAt time.Time `json:"created_at"`
+	Id       int    	  `json:"id"`
+	Message  string       `json:"message"`
+	PhotoId  int 	      `json:"photo_id"`
+	UserId 	 int  		  `json:"user_id"`
+	CreatedAt time.Time   `json:"created_at"`
 }
 
 type GetComments struct {
-	Id        int             `json:"id"`
-	Message   string          `json:"message"`
-	PhotoId   int             `json:"photo_id"`
-	UserId    int             `json:"user_id"`
-	UpdatedAt time.Time       `json:"updated_at"`
-	CreatedAt time.Time       `json:"created_at"`
-	User      UserGetComment  `json:"User"`
-	Photo     PhotoGetComment `json:"Photo"`
+	Id       int    	  `json:"id"`
+	Message    string    	  `json:"message"`
+	PhotoId  int 	  `json:"photo_id"`
+	UserId 	 int 		  `json:"user_id"`
+	UpdatedAt time.Time	  `json:"updated_at"`
+	CreatedAt time.Time   `json:"created_at"`
+	User 	 UserGetComment  `json:"User"`
+	Photo    PhotoGetComment `json:"Photo"`
 }
 
 type UserGetComment struct {
@@ -31,18 +31,18 @@ type UserGetComment struct {
 }
 
 type PhotoGetComment struct {
-	Id       int    `json:"id"`
-	Title    string `json:"title"`
-	Caption  string `json:"caption"`
-	PhotoUrl string `json:"photo_url"`
-	UserId   int    `json:"user_id"`
+	Id       int    	  `json:"id"`
+	Title    string    	  `json:"title"`
+	Caption  string 	  `json:"caption"`
+	PhotoUrl string 	  `json:"photo_url"`
+	UserId 	 int  		  `json:"user_id"`
 }
 
-type EditComments struct {
-	Id        int       `json:"id"`
-	Title     string    `json:"title"`
-	Caption   string    `json:"caption"`
-	PhotoUrl  string    `json:"photo_url"`
-	UserId    int       `json:"user_id"`
-	UpdatedAt time.Time `json:"updated_at"`
+type UpdateComment struct {
+	Id       int    	  `json:"id"`
+	Message  string       `json:"message"`
+	PhotoId  int 	      `json:"photo_id"`
+	UserId 	 int 		  `json:"user_id"`
+	UpdatedAt time.Time	  `json:"updated_at"`
 }
+

@@ -2,12 +2,11 @@ package gorm
 
 import (
 	"context"
-	"log"
-	"time"
-
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories/models"
 	"gorm.io/gorm"
+	"time"
+	"log"
 )
 
 type commentRepo struct {
@@ -35,19 +34,20 @@ func (r *commentRepo) GetComments(ctx context.Context) ([]models.Comment, error)
 		return comments, err
 	}
 	return comments, nil
-
 }
 
-func (r *commentRepo) GetCommentByID(ctx context.Context, id uint) (*models.Comment, error) {
-	comments := new(models.Comment)
-	return comments, r.db.WithContext(ctx).Where("id = ?", id).Take(comments).Error
+func (r *commentRepo) FindCommentByID(ctx context.Context, id int) (*models.Comment, error) {
+	comment := new(models.Comment)
+	err := r.db.WithContext(ctx).Where("id = ?", id).Take(comment).Error
+	return comment, err
 }
 
-func (r *commentRepo) EditComments(ctx context.Context, comment *models.Comment) error {
+func (r *commentRepo) UpdateComment(ctx context.Context, comment *models.Comment, id int) error {
 	comment.UpdatedAt = time.Now()
-	return r.db.WithContext(ctx).Model(comment).Updates(*comment).Error
+	err := r.db.WithContext(ctx).Model(comment).Where("id = ?", id).Updates(*comment).Error
+	return err
 }
 
-func (r *commentRepo) DeleteComments(ctx context.Context, id uint) error {
+func (r *commentRepo) DeleteComment(ctx context.Context, id int) error {
 	return r.db.WithContext(ctx).Delete(&models.Comment{}, "id = ?", id).Error
 }

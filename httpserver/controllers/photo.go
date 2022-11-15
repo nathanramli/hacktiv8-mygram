@@ -95,7 +95,7 @@ func (c *PhotoController) UpdatePhoto(ctx *gin.Context) {
 	userData := claims.(*common.CustomClaims)
 	if userData.Id != photo.UserId {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error": "Unauthorizrd User",
+				"error": "Unauthorized User",
 			})
 		return
 	}
