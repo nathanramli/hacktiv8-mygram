@@ -1,0 +1,625 @@
+{
+	"info": {
+		"_postman_id": "3272f6c7-2da0-457b-9cd2-09e889d20a0e",
+		"name": "mygram",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23401211"
+	},
+	"item": [
+		{
+			"name": "REGISTER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"age\": 21,\r\n    \"email\": \"test321@email.com\",\r\n    \"password\": \"qwerty123\",\r\n    \"username\": \"turutu\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/users/register",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"test123@email.com\",\r\n    \"password\":\"qwerty123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/users/login",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GETPHOTOS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/photos",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"photos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VALIDATE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg1OTI1LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.llPYUzW39LPaHAccGkcAxXMpMEjLu_j-CtuBOsZUgpg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/validate",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATEPHOTO",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"BAJU HIJAU-UPDATE\",\r\n    \"caption\": \"BAJU HIJAU NIH-UPDATE\",\r\n    \"photo_url\": \"www.google.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/photos/4",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"photos",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETEPHOTO",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/photos/2",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"photos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATECOMMENT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"Baju kamu bagus\",\r\n    \"photo_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/comments",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GETCOMMENTS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/comments",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATECOMMENT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\" : \"Baju Aku Memang Bagus Kan-Update\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/comments/1",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"comments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATEUSER",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"tes123@email.com\",\r\n    \"username\": \"tutu123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/users/2",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETEUSER",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTgzNzQ2LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.kdrY0QiAgSHbhkCN0TXEnvn1bRsRZQ4v8x1IgAV4Ujo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/users/",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATESOCIALMEDIA",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg2NjA4LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.zSQJegALuX31ibgo4gUPexPzyVpgJaMY5MAZA-v8_nU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Instagram\",\r\n    \"social_media_url\": \"www.instagram.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/socialmedias",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"socialmedias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GETSOCIALMEDIAS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/socialmedias",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"socialmedias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATESOCIALMEDIA",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTgzNzQ2LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.kdrY0QiAgSHbhkCN0TXEnvn1bRsRZQ4v8x1IgAV4Ujo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/socialmedias/",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"socialmedias",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETESOCIALMEDIA",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTgzNzQ2LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.kdrY0QiAgSHbhkCN0TXEnvn1bRsRZQ4v8x1IgAV4Ujo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/socialmedias/",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"socialmedias",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETECOMMENT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/comments/2",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"comments",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATEPHOTO",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNjY4NTg3MTc0LCJpc3MiOiJ0dXR1dHUiLCJzdWIiOiJ0ZXN0MTIzQGVtYWlsLmNvbSJ9.bfyLr6WIEf0b2w7aDIihcxuO5EDNmb0RKgK37xSJh2s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Baju Hijau\",\r\n    \"caption\": \"New OOTD\",\r\n    \"photo_url\": \"www.google.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hacktiv8-mygram-production.up.railway.app/v1/photos",
+					"protocol": "https",
+					"host": [
+						"hacktiv8-mygram-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"v1",
+						"photos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "login",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjY3NDQzNTU1LCJpc3MiOiJyZXJlcmVyZSIsInN1YiI6InJlc3Jlc0BnbWFpbC5jb20ifQ.oPYB2Kk956-85jCs7_AdlbR0_xzkBSd5IwnqxvxWkxE"
+		}
+	]
+}
