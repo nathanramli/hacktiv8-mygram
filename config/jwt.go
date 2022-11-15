@@ -20,6 +20,6 @@ func GetJwtExpiredTime() int {
 	return expiredTime
 }
 
-func GetJwtSignature() []byte {
+var GetJwtSignature = func() []byte {
 	return jwtSignature
 }
