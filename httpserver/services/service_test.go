@@ -8,18 +8,20 @@ import (
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories"
 	"github.com/nathanramli/hacktiv8-mygram/httpserver/repositories/models"
 	"github.com/stretchr/testify/assert"
+	"gorm.io/gorm"
 	"net/http"
 	"testing"
 )
 
 var (
-	userService     UserSvc
-	userRepo        repositories.UserRepo
-	createUser      func(ctx context.Context, user *models.User) error
-	updateUser      func(ctx context.Context, user *models.User) error
-	findUserByID    func(ctx context.Context, id int) (*models.User, error)
-	findUserByEmail func(ctx context.Context, email string) (*models.User, error)
-	deleteUser      func(ctx context.Context, id int) error
+	userService        UserSvc
+	userRepo           repositories.UserRepo
+	createUser         func(ctx context.Context, user *models.User) error
+	updateUser         func(ctx context.Context, user *models.User) error
+	findUserByID       func(ctx context.Context, id int) (*models.User, error)
+	findUserByEmail    func(ctx context.Context, email string) (*models.User, error)
+	findUserByUsername func(ctx context.Context, username string) (*models.User, error)
+	deleteUser         func(ctx context.Context, id int) error
 )
 
 type userRepositoryMock struct{}
@@ -38,6 +40,10 @@ func (r *userRepositoryMock) FindUserByID(ctx context.Context, id int) (*models.
 
 func (r *userRepositoryMock) FindUserByEmail(ctx context.Context, email string) (*models.User, error) {
 	return findUserByEmail(ctx, email)
+}
+
+func (r *userRepositoryMock) FindUserByUsername(ctx context.Context, username string) (*models.User, error) {
+	return findUserByUsername(ctx, username)
 }
 
 func (r *userRepositoryMock) DeleteUser(ctx context.Context, id int) error {
@@ -68,6 +74,14 @@ func TestUserService_CreateUser_Success(t *testing.T) {
 		return nil
 	}
 
+	findUserByEmail = func(ctx context.Context, email string) (*models.User, error) {
+		return nil, gorm.ErrRecordNotFound
+	}
+
+	findUserByUsername = func(ctx context.Context, username string) (*models.User, error) {
+		return nil, gorm.ErrRecordNotFound
+	}
+
 	resp := userService.Register(ctx, &paramsRegister)
 	data := resp.Payload.(views.Register)
 	assert.Equal(t, expectedVal.Id, data.Id)
@@ -91,6 +105,14 @@ func TestUserService_CreateUser_ServerError(t *testing.T) {
 	serverError := errors.New("internal server error")
 	createUser = func(ctx context.Context, user *models.User) error {
 		return serverError
+	}
+
+	findUserByEmail = func(ctx context.Context, email string) (*models.User, error) {
+		return nil, gorm.ErrRecordNotFound
+	}
+
+	findUserByUsername = func(ctx context.Context, username string) (*models.User, error) {
+		return nil, gorm.ErrRecordNotFound
 	}
 
 	resp := userService.Register(ctx, &paramsRegister)
